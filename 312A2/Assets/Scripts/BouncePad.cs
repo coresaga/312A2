@@ -4,7 +4,7 @@ using UnityExtensions;
 
 public class BouncePad : StaticMonoBehaviour
 {
-    public float ForceMultiplier = 20f;
+    public float ForceMultiplier = 35f;
 
     public override void OnCollisionEnter(Collision collision)
     {

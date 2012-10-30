@@ -2,10 +2,12 @@ using UnityEngine;
 using System.Collections;
 
 public class GameController : MonoBehaviour {
+	
+	
 
 	void Start () 
     {
-        Physics.gravity = new Vector3(0, -40, 0);
+        Physics.gravity = new Vector3(0, -30, 0);
 
 	}
 	
