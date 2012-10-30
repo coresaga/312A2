@@ -55,7 +55,7 @@ public class PlayerController : StaticMonoBehaviour
         transform.Translate(motion);//movement in X , Z
         transform.Rotate(Vector3.up, rotation);//rotate player around Y
 
-        if (Input.GetButtonDown("Jump"))
+        if (Input.GetButtonDown("Jump") && ContactNormal != null)
         {
             rigidbody.AddForce(JumpForce); //push player up
         }
