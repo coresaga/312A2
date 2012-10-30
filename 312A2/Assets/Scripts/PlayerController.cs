@@ -25,7 +25,7 @@ public class PlayerController : StaticMonoBehaviour
         get { return _contactNormal; }
         set
         {
-            print("contact normal is " + value);
+//            print("contact normal is " + value);
             _contactNormal = value;
         }
     }
@@ -70,7 +70,6 @@ public class PlayerController : StaticMonoBehaviour
     public override void OnCollisionExit(Collision collision)
     {
         ContactNormal = null;
-        print("exited colision");
     }
 
 }
