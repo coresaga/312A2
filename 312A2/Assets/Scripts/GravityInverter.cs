@@ -7,8 +7,6 @@ public class GravityInverter : StaticMonoBehaviour{
 	// Update is called once per frame
 	public override void OnCollisionEnter (Collision collision)
 	{
-	    RaycastHit hitResults;
-        var ray = Camera.main.ScreenPointToRay(Input.mousePosition);
 	    var alan = GameObjectExtensions.FindObjectOfType<PlayerController>();
 
         Physics.gravity = Physics.gravity.AsInverted();
