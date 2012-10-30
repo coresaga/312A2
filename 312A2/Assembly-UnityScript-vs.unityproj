@@ -245,11 +245,11 @@
  <Reference Include="Assembly-UnityScript-firstpass">
  <HintPath>Library\ScriptAssemblies\Assembly-UnityScript-firstpass.dll</HintPath>
  </Reference>
- <Reference Include="UnityExtensions">
- <HintPath>Assets\Source Extensions\UnityExtensions\UnityExtensions\obj\Debug\UnityExtensions.dll</HintPath>
- </Reference>
  <Reference Include="nunit.framework">
  <HintPath>Assets\Source Extensions\UnityExtensions\UnityExtensions\bin\Debug\nunit.framework.dll</HintPath>
+ </Reference>
+ <Reference Include="UnityExtensions">
+ <HintPath>Assets\Source Extensions\UnityExtensions\UnityExtensions\obj\Debug\UnityExtensions.dll</HintPath>
  </Reference>
   </ItemGroup>
   <ItemGroup>
