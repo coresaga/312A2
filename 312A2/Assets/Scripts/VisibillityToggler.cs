@@ -28,20 +28,17 @@ public class VisibillityToggler : StaticMonoBehaviour
         if (Input.GetButtonDown("Fire1") && UserViewingAndProximateToItem())
         {
             print("fire and viewing and proxmiate!");
-            var CameraView = Camera.main.ScreenPointToRay(Input.mousePosition);
-            RaycastHit castHit;
-            if (collider.Raycast(CameraView, out castHit, minDistanceToItem))
-            {
-                ToggleAppropriateTogglees();
-            }
+            ToggleAppropriateTogglees();
         }
     }
 
     private bool UserViewingAndProximateToItem()
     {
-        var CameraView = Camera.main.ScreenPointToRay(Input.mousePosition);
+        print("asking if user is viewing and proximate");
+        var cameraView = Camera.main.ScreenPointToRay(new Vector3(Screen.width/2F, Screen.height/2F, 0));
+        Debug.DrawRay(cameraView.origin, cameraView.direction, Color.yellow);
         RaycastHit castHit;
-        return collider.Raycast(CameraView, out castHit, minDistanceToItem);
+        return collider.Raycast(cameraView, out castHit, minDistanceToItem);
     }
 
     private void ToggleAppropriateTogglees()
