@@ -1,0 +1,16 @@
+﻿<Properties>
+  <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug" />
+  <MonoDevelop.Ide.Workbench ActiveDocument="Assets\Scripts\Gravity.js">
+    <Files>
+      <File FileName="Assets\Scripts\Trigger.js" Line="20" Column="98" />
+      <File FileName="Assets\Scripts\Gravity.js" Line="25" Column="46" />
+      <File FileName="Assets\Scripts\ObjOnOff.js" Line="21" Column="32" />
+      <File FileName="Assets\Scripts\AlanController.js" Line="11" Column="35" />
+      <File FileName="Assets\Scripts\Bounce.js" Line="20" Column="37" />
+    </Files>
+  </MonoDevelop.Ide.Workbench>
+  <MonoDevelop.Ide.DebuggingService.Breakpoints>
+    <BreakpointStore />
+  </MonoDevelop.Ide.DebuggingService.Breakpoints>
+  <MonoDevelop.Ide.DebuggingService.PinnedWatches />
+</Properties>
