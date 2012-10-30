@@ -16,6 +16,7 @@ namespace UnityExtensions
     public abstract class StaticMonoBehaviour : MonoBehaviour
     {
         public virtual void Update(){}
+        public virtual void FixedUpdate(){}
         public virtual void LateUpdate(){}
         public virtual void Awake(){}
         public virtual void Start(){}
@@ -31,7 +32,7 @@ namespace UnityExtensions
         public virtual void OnTriggerExit(){}
         public virtual void OnTriggerStay(){}
         public virtual void OnCollisionEnter(Collision collision){}
-        public virtual void OnCollisionExit(){}
+        public virtual void OnCollisionExit(Collision collision){}
         public virtual void OnCollisionStay(Collision collision){}
         public virtual void OnControllerColliderHit(){}
         public virtual void OnJointBreak(){}
