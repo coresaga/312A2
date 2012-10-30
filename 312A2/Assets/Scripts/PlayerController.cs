@@ -1,7 +1,7 @@
 using UnityEngine;
 using System.Collections;
 
-public class scrPlayer : MonoBehaviour 
+public class PlayerController : MonoBehaviour 
 {
 	//public static float hp;//hitpoints
 	//public const float fullHp = 500.0f;//full hitpoints
@@ -15,24 +15,20 @@ public class scrPlayer : MonoBehaviour
 	private float strafeSpd = 0.2f;//horizontal strafe speed
 	private float fbSpd = 0.35f;//forward backward speed
 	private float rotSpd = 2.0f;//rotation speed
-	private float jumpForce = 500;//jump force
-	
-	
+
+    private bool jumped;
+
+    public Vector3 JumpForce = new Vector3(0, 500, 0);
 	
 	// Use this for initialization
 	void Start () 
 	{
 	}
 	
-	
-	
 	// Update is called once per frame
 	void Update () 
 	{
-	
 	}
-	
-	
 	
 	//sure to run each frame
 	void FixedUpdate()
@@ -43,14 +39,31 @@ public class scrPlayer : MonoBehaviour
 		
 		transform.Translate(s, 0, fb);//movement in X , Z
 		transform.Rotate(Vector3.up, r);//rotate player around Y
-		if(Input.GetButtonDown("Jump"))//if user pressed jump button
-			rigidbody.AddForce(0, jumpForce, 0);//push player up
-	}
-	
-	
-	
 
-	
+        if (Input.GetButtonDown("Jump"))
+        {
+            jumped = true;
+            rigidbody.AddForce(JumpForce); //push player up
+        }
+	}
+
+
+}
+
+public static class Vector3Extensions
+{
+    public static Vector3 AsInverted(this Vector3 original)
+    {
+        return new Vector3(-original.x, -original.y, -original.z);
+    }
+}
+
+public static class RigidBodyExtensions
+{
+    public static void RemoveForce(this Rigidbody body, Vector3 force)
+    {
+        body.AddForce(force.AsInverted());
+    }
 }
 
 
