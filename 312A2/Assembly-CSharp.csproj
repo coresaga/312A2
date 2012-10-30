@@ -44,6 +44,11 @@
 	</Reference>
   </ItemGroup>
   <ItemGroup>
+     <Compile Include="Assets\Scripts\AlanControllerCS.cs" />
+     <Compile Include="Assets\Scripts\BoundCS.cs" />
+     <Compile Include="Assets\Scripts\GravityCS.cs" />
+     <Compile Include="Assets\Scripts\ObjOnOffCS.cs" />
+     <Compile Include="Assets\Scripts\TriggerCS.cs" />
      <Compile Include="Assets\Scripts\scrPlayer.cs" />
      <None Include="Assets\Standard Assets (Mobile)\Shaders\Particle Shaders\Mobile Multiply Culled.shader" />
      <None Include="Assets\Standard Assets (Mobile)\Shaders\Miscellaneous Shaders\Mobile Background.shader" />
