@@ -1,12 +1,27 @@
 using UnityEngine;
-using System.Collections.Generic;
 using UnityExtensions;
+using System.Collections.Generic;
 using System.Linq;
+using System;
 
 public class VisibillityToggler : StaticMonoBehaviour
 {
     public List<string> ThingsToToggle;
     public float minDistanceToItem = 100f;
+
+    private IEnumerable<VisibillityTogglee> togglees;
+
+    public override void Start()
+    {
+        var foundItems = GameObjectExtensions.FindObjectsOfType<VisibillityTogglee>();
+        togglees = foundItems.Where(item => ThingsToToggle.Contains(item.name));
+
+        var namedButNotFoundItems = ThingsToToggle.Except(foundItems.Select(item => item.name));
+        if (namedButNotFoundItems.Any())
+        {
+            throw new Exception("the following items were requested as togglees, but could not be found: " + namedButNotFoundItems.ToList());
+        }
+    }
 
     public override void Update()
     {
@@ -31,8 +46,7 @@ public class VisibillityToggler : StaticMonoBehaviour
 
     private void ToggleAppropriateTogglees()
     {
-        var foundItems = GameObjectExtensions.FindObjectsOfType<VisibillityTogglee>();
-        var itemsToToggle = foundItems.Where(item => ThingsToToggle.Contains(item.name));
+        var itemsToToggle = togglees;
 
         foreach (var visibillityTogglee in itemsToToggle)
         {
