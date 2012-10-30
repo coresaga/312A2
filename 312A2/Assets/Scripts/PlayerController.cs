@@ -30,7 +30,7 @@ public class PlayerController : StaticMonoBehaviour
         }
     }
 
-    public Vector3 JumpForce = new Vector3(0, 500, 0);
+    public Vector3 JumpForce = new Vector3(0, 200, 0);
 	
 	// Use this for initialization
 	public override void Start () 
