@@ -4,13 +4,14 @@ using UnityExtensions;
 
 public class BouncePad : StaticMonoBehaviour
 {
-    public float ForceMultiplier = 35f;
+    public float ForceMultiplier = 2F; //the bounce force will be equal to this number * (the players jump force)
+
 
     public override void OnCollisionEnter(Collision collision)
     {
-        //TODO b009f218b0c6: use the contacting object, stop looking for the player.
-        var player = GameObjectExtensions.FindObjectOfType<PlayerController>();
-        player.rigidbody.AddForce(Physics.gravity * -1 * ForceMultiplier);
+        //TODO use the contacting object, stop looking for the player.
+        var player = GameObjectExtensions.FindObjectOfType<PlayerController>(); //get the player
+        player.rigidbody.AddForce(player.JumpForce * ForceMultiplier); //add the bounce force to the players rigidbody
     }
 }
 

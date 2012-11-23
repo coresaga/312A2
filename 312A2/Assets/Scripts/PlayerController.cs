@@ -4,128 +4,66 @@ using UnityEngine;
 using System.Collections;
 using UnityExtensions;
 
-public class PlayerController : StaticMonoBehaviour 
+public class PlayerController : MonoBehaviour 
 {
-	//public static float hp;//hitpoints
-	//public const float fullHp = 500.0f;//full hitpoints
-	//private const float buffSpace = 10;//space around gui stuff so it's not just against the edge of the game screen
-	//public Texture2D textureHealth;//healthbar image
-	//public Texture2D textureDead;//image for the sayDead() message
-	//private const int tdw = 128;//texture of the dead message's width
-	//private const int tdh = 128;
-	//private bool isDead = false;//toggle for when the player dies to ensure the sayDead() only happens once
 	
-	private float strafeSpd = 0.2f;//horizontal strafe speed
-	private float fbSpd = 0.35f;//forward backward speed
-	private float rotSpd = 2.0f;//rotation speed
+	private const float strafeSpd = 0.2f;//horizontal strafe speed
+	private const float fbSpd = 0.175f;//forward backward speed
+	private const float rotSpd = 2.0f;//rotation speed
+    private readonly Vector3 defaultJumpForce = new Vector3(0, 500, 0);//the default jumping force of the player
+    //WARN: Unity reference has angry warnings about these kind of constructor-time assignments, but it doesnt seem to do any harm...
 
-    private Vector3? _contactNormal;
-    private Vector3? ContactNormal
-    {
-        get { return _contactNormal; }
-        set
-        {
-//            print("contact normal is " + value);
-            _contactNormal = value;
-        }
-    }
+    private Vector3[] _contactNormals; //used to keep track of the things currently contacting the player
 
-    public Vector3 JumpForce = new Vector3(0, 200, 0);
+    public Vector3 JumpForce; //the force the player jumps with.
 	
+
 	// Use this for initialization
-	public override void Start () 
+	public void Start ()
 	{
+        _contactNormals = Enumerable.Empty<Vector3>().ToArray(); //initially, assume the player isn't contacting anything. 
+	    JumpForce = JumpForce == default(Vector3) ? defaultJumpForce : JumpForce; //make sure the jump force isnt zero.
 	}
 	
+
 	// Update is called once per frame
-	public override void Update () 
+	public void Update () 
 	{
-        var straif = strafeSpd * Input.GetAxis("Strafe");
-        var forward = fbSpd * Input.GetAxis("ForwardBack");
-        var rotation = rotSpd * Input.GetAxis("Rotate");
+        var straif = strafeSpd * Input.GetAxis("Strafe"); // the distance to straif = the users input in the straif direction * the straif speed factor
+        var forward = fbSpd * Input.GetAxis("ForwardBack"); // the distance to move forward or backward (fb) = the users input fb * the fb speed factor
+        var rotation = rotSpd * Input.GetAxis("Rotate"); // the rotation to apply = the users rotational input * the rotational speed factor
 
-	    var motion = new Vector3(straif, 0, forward);
+	    var motion = new Vector3(straif, 0, forward); // total motion vector is a vector containing straif in X, fb in Z, nothing in y (no vertical movement is possible outside of jump)
 
+        //ensure the player cant move in the direction of a contact: remove the projection of the all contacts normal vectors from the motion vector
+	    motion = _contactNormals.Aggregate(motion, (current, contactNormal) => current - Vector3.Project(current, contactNormal));
 
-//        if (ContactNormal != null)
-//        {
-//            motion = (motion.normalized + ContactNormal.Value) * motion.magnitude;
-//        }
-
-        transform.Translate(motion);//movement in X , Z
+	    transform.Translate(motion);//movement in X , Z
         transform.Rotate(Vector3.up, rotation);//rotate player around Y
 
-        if (Input.GetButtonDown("Jump") && ContactNormal != null)
+        //if the user is trying to jump and hes contacting something
+        //BUG allows for wall jumping.
+        if (Input.GetButtonDown("Jump") && _contactNormals.Any())
         {
             rigidbody.AddForce(JumpForce); //push player up
         }
 	}
 
-    public override void OnCollisionEnter(Collision collision)
+
+    public void OnCollisionEnter(Collision collision)
     {
-        var contact = collision.contacts.Select(point => point.normal).Average().normalized;
-        contact.y = 0;
-        ContactNormal = contact;
+        //get each of the contacts direction of contact. 
+        _contactNormals = collision.contacts.Select(contact => contact.normal).ToArray();
     }
-    public override void OnCollisionExit(Collision collision)
+
+
+    public void OnCollisionExit(Collision collision)
     {
-        ContactNormal = null;
+        //remove the contacts that we're leaving from the collision
+        _contactNormals = _contactNormals.Except(collision.contacts.Select(contact => contact.normal)).ToArray();
     }
 
 }
-
-public struct WorkingVector
-{
-    public static WorkingVector Zero
-    {
-        get
-        {
-            return new WorkingVector();
-        }
-    } 
-
-    public float x { get; set; }
-    public float y { get; set; }
-    public float z { get; set; }
-
-    public static WorkingVector operator +(WorkingVector left, Vector3 right)
-    {
-        return new WorkingVector()
-                   {
-                       x = left.x + right.x,
-                       y = left.y + right.y,
-                       z = left.z + right.z
-                   };
-    }
-
-    public Vector3 ToVector3()
-    {
-        return new Vector3(x, y, z);
-    }
-}
-
-public static class Vector3Extensions
-{
-    public static Vector3 AsInverted(this Vector3 original)
-    {
-        return new Vector3(-original.x, -original.y, -original.z);
-    }
-
-    public static Vector3 Average(this IEnumerable<Vector3> vectors)
-    {
-        return vectors.Aggregate(WorkingVector.Zero, (workingVector, next) => workingVector + next).ToVector3();
-    }
-}
-
-public static class RigidBodyExtensions
-{
-    public static void RemoveForce(this Rigidbody body, Vector3 force)
-    {
-        body.AddForce(force.AsInverted());
-    }
-}
-
-
 
 
 

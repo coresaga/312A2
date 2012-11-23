@@ -14,6 +14,7 @@ namespace UnityExtensions
         {
             return (TFindable)Object.FindObjectOfType(typeof(TFindable));
         }
+
         public static TFindable FindObjectOfType<TFindable>(this GameObject gameObject)
             where TFindable : Object
         {
@@ -32,6 +33,25 @@ namespace UnityExtensions
             where TFindable : Object
         {
             return FindObjectsOfType<TFindable>();
+        }
+
+        public static bool IsLookedAt(this Collider collider)
+        {
+            return IsLookedAtInRange(collider, float.PositiveInfinity);
+        }
+ 
+        public static bool IsLookedAtInRange(this Collider collider, float distance)
+        {
+            var ray = Camera.main.ScreenPointToRay(Input.mousePosition);
+            RaycastHit hitInfo;
+
+            return collider.Raycast(ray, out hitInfo, distance);
+        }
+
+        public static IEnumerable<string> GameObjectNames<TUnityObject>(this IEnumerable<TUnityObject> gameObjects)
+            where TUnityObject : UnityEngine.Object
+        {
+            return gameObjects.Select(gameObject => gameObject.name);
         } 
     }
 }
